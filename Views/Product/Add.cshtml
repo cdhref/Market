@@ -1,0 +1,126 @@
+﻿@*
+    起業リストを紹介する画面
+*@
+@{
+    @model ProductModel
+
+    int id = -1;
+    string name = "";
+    string price = "";
+    string comment = "";
+    string createAt = "";
+    string companyName = "";
+    string categoryName = "";
+
+    if (ViewBag.productData != null)
+    {
+        id = ViewBag.productData.Id;
+        name = ViewBag.productData.Name;
+        price = string.Format("{0:n0}", ViewBag.productData.Price);
+        comment = ViewBag.productData.Comment;
+        createAt = ViewBag.productData.CreateAt;
+        companyName = ViewBag.productData.Company.Name;
+        categoryName = ViewBag.productData.Category.Name;
+    }
+}
+<input type="hidden" id="productID" value="@id" />
+<input type="hidden" id="createAt" value="@createAt" />
+<div class="form-group">
+    <label for="name">商品名</label>
+    <input type="text" class="form-control" id="name" placeholder="商品名" value="@name" />
+</div>
+<div class="form-group">
+    <label for="name">価格</label>
+    <input type="text" class="form-control" id="price" placeholder="価格" value="@price" />
+</div>
+<div class="form-group">
+    <label for="name">商品説明</label>
+    <textarea class="form-control" id="comment">@comment</textarea>
+</div>
+<div class="form-group">
+    <label for="name">企業名</label>
+    <input type="text" class="form-control" id="name" placeholder="企業名" value="@companyName" />
+</div>
+<div class="form-group">
+    <label for="comment">カテゴリ名</label>
+    <input type="text" class="form-control" id="comment" placeholder="カテゴリ名" value="@categoryName" />
+</div>
+<div class="float-right">
+    @{
+        if (id > -1)
+        {
+            <button type="button" class="btn btn-primary" onclick="modifyProduct()">修正</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" onclick="addProduct()">登録</button>
+        }
+    }
+
+</div>
+
+@section Scripts{
+@{
+    if (ViewBag.companyList.Count == 0)
+    {
+        <script>
+            alert("登録された企業データがないため商品登録が出来ません。企業データ登録ページに移動します。");
+            location.href = "/Company/AddPage"
+        </script>
+            
+    }
+    if (ViewBag.categoryList.Count == 0)
+    {
+        <script>
+            alert("登録されたカテゴリデータがないため商品登録が出来ません。カテゴリデータ登録ページに移動します。");
+            location.href = "/Category/AddPage"
+        </script>
+    }
+}
+    <script type="text/javascript">
+
+        async function modifyProduct() {
+            if (!isValidForm()) {
+                return
+            }
+            data = {
+                id: document.querySelector("#productID").value,
+                name: document.querySelector("#name").value,
+                comment: document.querySelector("#comment").value,
+                incorporationAt: document.querySelector("#incorporationAt").value,
+                createAt: document.querySelector("#createAt").value,
+            }
+            await getResponse("/Product/Modify", "POST", data, "/Product/List", 1000);
+        }
+        async function addProduct() {
+            if (!isValidForm()) {
+                return
+            }
+
+            data = {
+                name: document.querySelector("#name").value,
+                comment: document.querySelector("#comment").value,
+                incorporationAt: document.querySelector("#incorporationAt").value,
+            }
+            await getResponse("/Product/Add", "POST", data, "/Product/List", 1000);
+        }
+
+        // 必需値が入力されたか確認する
+        function isValidForm() {
+            let name = document.querySelector("#name").value;
+            let incorporationAt = document.querySelector("#incorporationAt").value;
+            let incorporationDate = new Date(incorporationAt);
+
+            if (name.length == 0) {
+                showMessage("企業名を入力してください。", "warning");
+                return false;
+            }
+            if (incorporationDate > Date.now()) {
+                showMessage("設立日は未来の日付で設定出来ません。", "warning");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+}

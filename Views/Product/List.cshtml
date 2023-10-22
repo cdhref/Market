@@ -1,0 +1,68 @@
+﻿@*
+    起業リストを紹介する画面
+*@
+@{
+    @model List<ProductModel>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">商品名</th>
+            <th scope="col">価格</th>
+            <th scope="col">商品説明</th>
+            <th scope="col">企業名</th>
+            <th scope="col">カテゴリ名</th>
+            <th scope="col">登録日</th>
+            <th scope="col">登録日</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (ViewBag.productList.Count == 0)
+            {
+                <tr>
+                    <td colspan="5">
+                        商品データがありません。登録してください。
+                    </td>
+                </tr>
+            }
+        }
+
+        @foreach (ProductModel product in ViewBag.productList)
+        {
+            <tr>
+                <th scope="row">@product.Name</th>
+                <th scope="row">@product.Price</th>
+                <td>@product.Comment</td>
+                <td>@product.Company.Name</td>
+                <td>@product.Category.Name</td>
+                <td>@product.CreateAt</td>
+                <td>@product.UpdateAt</td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="location.href = '/Product/Detail/@product.Id'">修正</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteProduct(@product.Id)">削除</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="float-right">
+    <button type="button" class="btn btn-primary" onclick="location.href='/Product/AddPage'">新規登録</button>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        async function deleteProduct(productID) {
+            if (!confirm("確認ボタンを押すと商品データが永久に削除されます。よろしいですか？")) {
+                return;
+            }
+            data = {
+                id: productID,
+            }
+            await getResponse("/Product/Delete", "POST", data, "/Product/List", 1000);
+        }
+
+    </script>
+}
+    

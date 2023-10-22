@@ -1,0 +1,65 @@
+﻿@*
+    起業リストを紹介する画面
+*@
+@{
+    @model List<CompanyModel>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">企業名</th>
+            <th scope="col">コメント</th>
+            <th scope="col">設立日</th>
+            <th scope="col">登録日</th>
+            <th scope="col">修正日</th>
+            <th scope="col">機能関連</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (ViewBag.companyList.Count == 0)
+            {
+                <tr>
+                    <td colspan="5">
+                        企業データがありません。登録してください。
+                    </td>
+                </tr>
+            }
+        }
+
+        @foreach (CompanyModel item in ViewBag.companyList)
+        {
+            <tr>
+                <th scope="row">@item.Name</th>
+                <td>@item.Comment</td>
+                <td>@item.IncorporationAt</td>
+                <td>@item.CreateAt</td>
+                <td>@item.UpdateAt</td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="location.href = '/Company/Detail/@item.Id'">修正</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteCompany(@item.Id)">削除</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="float-right">
+    <button type="button" class="btn btn-primary" onclick="location.href='/Company/AddPage'">新規登録</button>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        async function deleteCompany(companyID) {
+            if (!confirm("確認ボタンを押すと企業データが永久に削除されます。よろしいですか？")) {
+                return;
+            }
+            data = {
+                id: companyID,
+            }
+            await getResponse("/Company/Delete", "POST", data, "/Company/List", 1000);
+        }
+
+    </script>
+}
+    
