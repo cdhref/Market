@@ -1,4 +1,5 @@
-﻿using Market.Models;
+﻿using Market.Common.Constant;
+using Market.Models;
 using Market.Models.Common;
 using Market.Object.Constant;
 using Market.Service;
@@ -30,6 +31,7 @@ namespace Market.Controllers
         [HttpGet]
         public IActionResult List()
         {
+            ViewBag.Title = ViewPageTitle.productList;
             // sampleコードのためPaging処理は除外。今後入れたくなるかも知れないのでParameterはもらって置く。
             string key = Message.pageKey;
             string strPage = Request.Query[Message.pageKey];
@@ -45,6 +47,7 @@ namespace Market.Controllers
         [HttpGet]
         public IActionResult AddPage()
         {
+            ViewBag.Title = ViewPageTitle.categoryAdd;
             ViewBag.categoryList = categoryService.GetCategoryList();
             ViewBag.companyList = companyService.GetCompanyList();
             return View("Add");
@@ -107,6 +110,7 @@ namespace Market.Controllers
         [HttpGet]
         public IActionResult Detail(int id)
         {
+            ViewBag.Title = ViewPageTitle.categoryAdd;
             ViewBag.productData = productService.GetProduct(id);
             return View("Add");
         }

@@ -1,5 +1,5 @@
 ﻿@*
-    起業リストを紹介する画面
+    商品データを登録する画面
 *@
 @{
     @model ProductModel
@@ -39,11 +39,33 @@
 </div>
 <div class="form-group">
     <label for="name">企業名</label>
-    <input type="text" class="form-control" id="name" placeholder="企業名" value="@companyName" />
+    <select>
+        <option value="">==選択==</option>
+        @foreach (CompanyModel company in ViewBag.companyList)
+        {
+            if (ViewBag.productData != null && ViewBag.productData.Company.Id == company.Id)
+            {
+                <option value="@company.Id" selected>@company.Name</option>
+                continue;
+            }
+            <option value="@company.Id">@company.Name</option>
+        }
+    </select>
 </div>
 <div class="form-group">
     <label for="comment">カテゴリ名</label>
-    <input type="text" class="form-control" id="comment" placeholder="カテゴリ名" value="@categoryName" />
+    <select>
+        <option value="">==選択==</option>
+        @foreach (CategoryModel category in ViewBag.categoryList)
+        {
+            if (ViewBag.productData != null && ViewBag.productData.Category.Id == category.Id)
+            {
+                <option value="@category.Id" selected>@category.Name</option>
+                continue;
+            }
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
 </div>
 <div class="float-right">
     @{
@@ -60,23 +82,23 @@
 </div>
 
 @section Scripts{
-@{
-    if (ViewBag.companyList.Count == 0)
-    {
-        <script>
-            alert("登録された企業データがないため商品登録が出来ません。企業データ登録ページに移動します。");
-            location.href = "/Company/AddPage"
-        </script>
-            
+    @{
+        if (ViewBag.companyList.Count == 0)
+        {
+            <script>
+                alert("登録された企業データがないため商品登録が出来ません。企業データ登録ページに移動します。");
+                location.href = "/Company/AddPage"
+            </script>
+
+        }
+        if (ViewBag.categoryList.Count == 0)
+        {
+            <script>
+                alert("登録されたカテゴリデータがないため商品登録が出来ません。カテゴリデータ登録ページに移動します。");
+                location.href = "/Category/AddPage"
+            </script>
+        }
     }
-    if (ViewBag.categoryList.Count == 0)
-    {
-        <script>
-            alert("登録されたカテゴリデータがないため商品登録が出来ません。カテゴリデータ登録ページに移動します。");
-            location.href = "/Category/AddPage"
-        </script>
-    }
-}
     <script type="text/javascript">
 
         async function modifyProduct() {

@@ -1,5 +1,5 @@
 ﻿@*
-    起業リストを紹介する画面
+    起業データを登録する画面
 *@
 @{
     @model CompanyModel
@@ -17,7 +17,7 @@
         incorporationAt = ViewBag.companyData.IncorporationAt;
         createAt = ViewBag.companyData.CreateAt;
     }
- }
+}
 <input type="hidden" id="companyID" value="@id" />
 <input type="hidden" id="createAt" value="@createAt" />
 <div class="form-group">
@@ -36,11 +36,11 @@
     @{
         if (id > -1)
         {
-            <button type="button" class="btn btn-primary" onclick="modifyCompany()">修正</button>
+        <button type="button" class="btn btn-primary" onclick="modifyCompany()">修正</button>
         }
         else
         {
-            <button type="button" class="btn btn-primary" onclick="addCompany()">登録</button>
+        <button type="button" class="btn btn-primary" onclick="addCompany()">登録</button>
         }
     }
 
@@ -65,10 +65,10 @@
             if (!isValidForm()) {
                 return
             }
-            
+
             data = {
-                name:            document.querySelector("#name").value,
-                comment:         document.querySelector("#comment").value,
+                name: document.querySelector("#name").value,
+                comment: document.querySelector("#comment").value,
                 incorporationAt: document.querySelector("#incorporationAt").value,
             }
             await getResponse("/Company/Add", "POST", data, "/Company/List", 1000);
