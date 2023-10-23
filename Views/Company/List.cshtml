@@ -52,14 +52,13 @@
     <script type="text/javascript">
         async function deleteCompany(companyID) {
             if (!confirm("確認ボタンを押すと企業データが永久に削除されます。よろしいですか？")) {
-                return;
+                return
             }
             data = {
                 id: companyID,
             }
-            await getResponse("/Company/Delete", "POST", data, "/Company/List", 1000);
+            await getResponse("/Company/Delete", "POST", data, "/Company/List", 1000)
         }
 
     </script>
 }
-    

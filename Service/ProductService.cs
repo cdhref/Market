@@ -1,5 +1,6 @@
 ﻿using Market.Models;
 using Market.Models.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,10 @@ namespace Market.Service
             {
                 pageNo = Int32.Parse(strPage);
             }
-            List<ProductModel> productList = _context.Product.ToList();
+            List<ProductModel> productList = _context.Product
+            .Include(p => p.Company)
+            .Include(p => p.Category)
+            .ToList();
             return productList;
         }
 
@@ -47,6 +51,10 @@ namespace Market.Service
             return _context.Find<ProductModel>(id);
         }
 
+        /// <summary>
+        /// 商品データを削除する
+        /// </summary>
+        /// <param name="product">商品</param>
         public void DeleteProduct(ProductModel product)
         {
             _context.Product.Attach(product);

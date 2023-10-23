@@ -13,7 +13,8 @@
             <th scope="col">企業名</th>
             <th scope="col">カテゴリ名</th>
             <th scope="col">登録日</th>
-            <th scope="col">登録日</th>
+            <th scope="col">修正日</th>
+            <th scope="col">機能関連</th>
         </tr>
     </thead>
     <tbody>
@@ -55,14 +56,13 @@
     <script type="text/javascript">
         async function deleteProduct(productID) {
             if (!confirm("確認ボタンを押すと商品データが永久に削除されます。よろしいですか？")) {
-                return;
+                return
             }
             data = {
                 id: productID,
             }
-            await getResponse("/Product/Delete", "POST", data, "/Product/List", 1000);
+            await getResponse("/Product/Delete", "POST", data, "/Product/List", 1000)
         }
 
     </script>
 }
-    

@@ -6,13 +6,16 @@ namespace Market.Models
     public class ProductModel : IDBModel
     {
         public int Id { get; set; }                  // db pk
-        public CompanyModel Company { get; set; }    // 企業情報
-        public CategoryModel Category { get; set; }  // カテゴリ情報
+        public int CompanyID { get; set; }           // 企業id fk
+        public int CategoryID { get; set; }          // カテゴリid fk
         public string Name { get; set; }             // 商品名
         public int Price { get; set; }               // 価格
         public string Comment { get; set; }          // 商品説明
         public string CreateAt { get; set; }         // データ登録日
         public string UpdateAt { get; set; }         // データ修正日
+
+        public virtual CompanyModel Company { get; set; }
+        public virtual CategoryModel Category { get; set; }
 
         public ProductModel() { }
 
@@ -25,11 +28,11 @@ namespace Market.Models
             {
                 return false;
             }
-            if (Category == null || Category.Id == 0)
+            if (CategoryID == 0)
             {
                 return false;
             }
-            if (Company == null || Company.Id == 0)
+            if (CompanyID == 0)
             {
                 return false;
             }

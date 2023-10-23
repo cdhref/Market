@@ -10,12 +10,13 @@
             <th scope="col">カテゴリ名</th>
             <th scope="col">登録日</th>
             <th scope="col">修正日</th>
+            <th scope="col">機能関連</th>
         </tr>
     </thead>
     <tbody>
 
         @{
-            if (ViewBag.companyList.Count == 0)
+            if (ViewBag.categoryList.Count == 0)
             {
                 <tr>
                     <td colspan="5">
@@ -25,38 +26,35 @@
             }
         }
 
-        @foreach (CompanyModel item in ViewBag.companyList)
+        @foreach (CategoryModel item in ViewBag.categoryList)
         {
             <tr>
                 <th scope="row">@item.Name</th>
-                <td>@item.Comment</td>
-                <td>@item.IncorporationAt</td>
                 <td>@item.CreateAt</td>
                 <td>@item.UpdateAt</td>
                 <td>
-                    <button type="button" class="btn btn-primary" onclick="location.href = '/Company/Detail/@item.Id'">修正</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteCompany(@item.Id)">削除</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href = '/Category/Detail/@item.Id'">修正</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteCategory(@item.Id)">削除</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <div class="float-right">
-    <button type="button" class="btn btn-primary" onclick="location.href='/Company/AddPage'">新規登録</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='/Category/AddPage'">新規登録</button>
 </div>
 
 @section Scripts{
     <script type="text/javascript">
-        async function deleteCompany(companyID) {
+        async function deleteCategory(categoryID) {
             if (!confirm("確認ボタンを押すと企業データが永久に削除されます。よろしいですか？")) {
-                return;
+                return
             }
             data = {
-                id: companyID,
+                id: categoryID,
             }
-            await getResponse("/Company/Delete", "POST", data, "/Company/List", 1000);
+            await getResponse("/Category/Delete", "POST", data, "/Category/List", 1000)
         }
 
     </script>
 }
-    

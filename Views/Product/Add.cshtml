@@ -4,7 +4,7 @@
 @{
     @model ProductModel
 
-    int id = -1;
+    int id = 0;
     string name = "";
     string price = "";
     string comment = "";
@@ -39,7 +39,7 @@
 </div>
 <div class="form-group">
     <label for="name">企業名</label>
-    <select>
+    <select id="companyID" class="form-control">
         <option value="">==選択==</option>
         @foreach (CompanyModel company in ViewBag.companyList)
         {
@@ -54,7 +54,7 @@
 </div>
 <div class="form-group">
     <label for="comment">カテゴリ名</label>
-    <select>
+    <select id="categoryID" class="form-control">
         <option value="">==選択==</option>
         @foreach (CategoryModel category in ViewBag.categoryList)
         {
@@ -69,7 +69,7 @@
 </div>
 <div class="float-right">
     @{
-        if (id > -1)
+        if (id > 0)
         {
             <button type="button" class="btn btn-primary" onclick="modifyProduct()">修正</button>
         }
@@ -86,7 +86,7 @@
         if (ViewBag.companyList.Count == 0)
         {
             <script>
-                alert("登録された企業データがないため商品登録が出来ません。企業データ登録ページに移動します。");
+                alert("登録された企業データがないため商品登録が出来ません。企業データ登録ページに移動します。")
                 location.href = "/Company/AddPage"
             </script>
 
@@ -94,7 +94,7 @@
         if (ViewBag.categoryList.Count == 0)
         {
             <script>
-                alert("登録されたカテゴリデータがないため商品登録が出来ません。カテゴリデータ登録ページに移動します。");
+                alert("登録されたカテゴリデータがないため商品登録が出来ません。カテゴリデータ登録ページに移動します。")
                 location.href = "/Category/AddPage"
             </script>
         }
@@ -105,44 +105,77 @@
             if (!isValidForm()) {
                 return
             }
-            data = {
-                id: document.querySelector("#productID").value,
-                name: document.querySelector("#name").value,
-                comment: document.querySelector("#comment").value,
-                incorporationAt: document.querySelector("#incorporationAt").value,
-                createAt: document.querySelector("#createAt").value,
-            }
-            await getResponse("/Product/Modify", "POST", data, "/Product/List", 1000);
+            data = createRequestData("modify")
+            await getResponse("/Product/Modify", "POST", data, "/Product/List", 1000)
         }
         async function addProduct() {
             if (!isValidForm()) {
                 return
             }
 
-            data = {
-                name: document.querySelector("#name").value,
-                comment: document.querySelector("#comment").value,
-                incorporationAt: document.querySelector("#incorporationAt").value,
-            }
-            await getResponse("/Product/Add", "POST", data, "/Product/List", 1000);
+            data = createRequestData("add")
+            await getResponse("/Product/Add", "POST", data, "/Product/List", 1000)
         }
 
         // 必需値が入力されたか確認する
         function isValidForm() {
-            let name = document.querySelector("#name").value;
-            let incorporationAt = document.querySelector("#incorporationAt").value;
-            let incorporationDate = new Date(incorporationAt);
+            let name = document.querySelector("#name").value
+            let price = document.querySelector("#price").value
+            let comment = document.querySelector("#comment").value
+            let companyID = document.querySelector("#companyID").value
+            let categoryID = document.querySelector("#categoryID").value
 
             if (name.length == 0) {
-                showMessage("企業名を入力してください。", "warning");
-                return false;
+                showMessage("企業名を入力してください。", "warning")
+                return false
             }
-            if (incorporationDate > Date.now()) {
-                showMessage("設立日は未来の日付で設定出来ません。", "warning");
-                return false;
+            if (price.length == 0) {
+                showMessage("価格を入力してください。", "warning")
+                return false
+            }
+            if (comment.length == 0) {
+                showMessage("商品説明を入力してください。", "warning")
+                return false
+            }
+            if (companyID.length == 0) {
+                showMessage("企業名をを選択してください。", "warning")
+                return false
+            }
+            if (categoryID.length == 0) {
+                showMessage("カテゴリ名を選択してください。", "warning")
+                return false
             }
 
-            return true;
+
+            return true
+        }
+
+        function createRequestData(reqType) {
+            if (reqType == "add") {
+                return {
+                    id: document.querySelector("#productID").value,
+                    companyID: document.querySelector("#companyID").value,
+                    categoryID: document.querySelector("#categoryID").value,
+                    name: document.querySelector("#name").value,
+                    price: document.querySelector("#price").value,
+                    comment: document.querySelector("#comment").value,
+                }
+            }
+
+            if (reqType == "modify") {
+                return {
+                    id: document.querySelector("#productID").value,
+                    companyID: document.querySelector("#companyID").value,
+                    categoryID: document.querySelector("#categoryID").value,
+                    name: document.querySelector("#name").value,
+                    price: document.querySelector("#price").value,
+                    comment: document.querySelector("#comment").value,
+                    createAt: document.querySelector("#createAt").value,
+                }
+            }
+
+            showMessage(`javascript warning: createRequestDataの関数に想定外のParameter。reqType：${reqType}`, "warning")
+            return {}
         }
     </script>
 }

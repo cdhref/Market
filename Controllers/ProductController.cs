@@ -10,9 +10,9 @@ namespace Market.Controllers
 {
     public class ProductController : Controller
     {
-        private CompanyService companyService;
-        private CategoryService categoryService;
-        private ProductService productService;
+        private readonly CompanyService companyService;
+        private readonly CategoryService categoryService;
+        private readonly ProductService productService;
 
         /// <summary>
         /// 企業データ関連Controller
@@ -47,7 +47,7 @@ namespace Market.Controllers
         [HttpGet]
         public IActionResult AddPage()
         {
-            ViewBag.Title = ViewPageTitle.categoryAdd;
+            ViewBag.Title = ViewPageTitle.productAdd;
             ViewBag.categoryList = categoryService.GetCategoryList();
             ViewBag.companyList = companyService.GetCompanyList();
             return View("Add");
@@ -70,9 +70,9 @@ namespace Market.Controllers
             {
                 productService.AddProduct(product);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedBecauseDuplicateData));
+                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.addSuccessMessage));
@@ -96,7 +96,7 @@ namespace Market.Controllers
             }
             catch (Exception)
             {
-                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedBecauseDataNotFound));
+                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.modifySuccessMessage));
@@ -129,7 +129,7 @@ namespace Market.Controllers
             }
             catch (Exception)
             {
-                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedBecauseDataNotFound));
+                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.deleteSuccessMessage));

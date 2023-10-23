@@ -66,7 +66,7 @@ namespace Market.Controllers
             }
             catch (Exception)
             {
-                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedBecauseDuplicateData));
+                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.addSuccessMessage));
@@ -90,7 +90,7 @@ namespace Market.Controllers
             }
             catch (Exception)
             {
-                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedBecauseDataNotFound));
+                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.modifySuccessMessage));
@@ -121,9 +121,9 @@ namespace Market.Controllers
             {
                 companyService.DeleteCompany(company);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedBecauseDataNotFound));
+                return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.deleteSuccessMessage));

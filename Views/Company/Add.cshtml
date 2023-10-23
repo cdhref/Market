@@ -4,13 +4,14 @@
 @{
     @model CompanyModel
 
-    int id = -1;
+    int id = 0;
     string name = "";
     string comment = "";
     string incorporationAt = "";
     string createAt = "";
 
-    if (ViewBag.companyData != null) {
+    if (ViewBag.companyData != null)
+    {
         id = ViewBag.companyData.Id;
         name = ViewBag.companyData.Name;
         comment = ViewBag.companyData.Comment;
@@ -34,13 +35,13 @@
 </div>
 <div class="float-right">
     @{
-        if (id > -1)
+        if (id > 0)
         {
-        <button type="button" class="btn btn-primary" onclick="modifyCompany()">修正</button>
+            <button type="button" class="btn btn-primary" onclick="modifyCompany()">修正</button>
         }
         else
         {
-        <button type="button" class="btn btn-primary" onclick="addCompany()">登録</button>
+            <button type="button" class="btn btn-primary" onclick="addCompany()">登録</button>
         }
     }
 
@@ -52,44 +53,57 @@
             if (!isValidForm()) {
                 return
             }
-            data = {
-                id: document.querySelector("#companyID").value,
-                name: document.querySelector("#name").value,
-                comment: document.querySelector("#comment").value,
-                incorporationAt: document.querySelector("#incorporationAt").value,
-                createAt: document.querySelector("#createAt").value,
-            }
-            await getResponse("/Company/Modify", "POST", data, "/Company/List", 1000);
+            data = createRequestData("modify")
+            await getResponse("/Company/Modify", "POST", data, "/Company/List", 1000)
         }
         async function addCompany() {
             if (!isValidForm()) {
                 return
             }
 
-            data = {
-                name: document.querySelector("#name").value,
-                comment: document.querySelector("#comment").value,
-                incorporationAt: document.querySelector("#incorporationAt").value,
-            }
-            await getResponse("/Company/Add", "POST", data, "/Company/List", 1000);
+            data = createRequestData("add")
+            await getResponse("/Company/Add", "POST", data, "/Company/List", 1000)
         }
 
         // 必需値が入力されたか確認する
         function isValidForm() {
-            let name = document.querySelector("#name").value;
-            let incorporationAt = document.querySelector("#incorporationAt").value;
-            let incorporationDate = new Date(incorporationAt);
+            let name = document.querySelector("#name").value
+            let incorporationAt = document.querySelector("#incorporationAt").value
+            let incorporationDate = new Date(incorporationAt)
 
             if (name.length == 0) {
-                showMessage("企業名を入力してください。", "warning");
-                return false;
+                showMessage("企業名を入力してください。", "warning")
+                return false
             }
             if (incorporationDate > Date.now()) {
-                showMessage("設立日は未来の日付で設定出来ません。", "warning");
-                return false;
+                showMessage("設立日は未来の日付で設定出来ません。", "warning")
+                return false
             }
 
-            return true;
+            return true
+        }
+
+        function createRequestData(reqType) {
+            if (reqType == "add") {
+                return {
+                    name: document.querySelector("#name").value,
+                    comment: document.querySelector("#comment").value,
+                    incorporationAt: document.querySelector("#incorporationAt").value,
+                }
+            }
+
+            if (reqType == "modify") {
+                return {
+                    id: document.querySelector("#companyID").value,
+                    name: document.querySelector("#name").value,
+                    comment: document.querySelector("#comment").value,
+                    incorporationAt: document.querySelector("#incorporationAt").value,
+                    createAt: document.querySelector("#createAt").value,
+                }
+            }
+
+            showMessage(`javascript warning: createRequestDataの関数に想定外のParameter。reqType：${reqType}`, "warning")
+            return {}
         }
     </script>
 }
