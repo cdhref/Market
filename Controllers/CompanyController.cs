@@ -121,7 +121,7 @@ namespace Market.Controllers
             {
                 companyService.DeleteCompany(company);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }

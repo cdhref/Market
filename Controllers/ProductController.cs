@@ -70,7 +70,7 @@ namespace Market.Controllers
             {
                 productService.AddProduct(product);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
