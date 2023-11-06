@@ -8,7 +8,7 @@ namespace Market.Service
 {
     public class CategoryService
     {
-        private MarketDBContext _context;
+        private readonly MarketDBContext _context;
 
         public CategoryService()
         {

@@ -9,7 +9,7 @@ namespace Market.Service
 {
     public class ProductService
     {
-        private MarketDBContext _context;
+        private readonly MarketDBContext _context;
 
         public ProductService()
         {
