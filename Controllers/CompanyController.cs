@@ -66,7 +66,6 @@ namespace Market.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 

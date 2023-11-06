@@ -28,7 +28,6 @@ async function getResponse(url, type, data, nextURL, timer) {
         body: JSON.stringify(data),
     })
     const json = await response.json()
-    console.log(json)
     if (json.ResultCode == 200) {
         if (nextURL == "" || json.Message == "") {
             return json.ResultString
