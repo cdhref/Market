@@ -1,4 +1,4 @@
-﻿using System.Web;
+﻿using Market.Common.Filter;
 using System.Web.Mvc;
 
 namespace Market
@@ -8,6 +8,7 @@ namespace Market
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new GlobalFilterAttribute());
         }
     }
 }

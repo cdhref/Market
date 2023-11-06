@@ -112,6 +112,8 @@ namespace Market.Controllers
         {
             ViewBag.Title = ViewPageTitle.categoryAdd;
             ViewBag.productData = productService.GetProduct(id);
+            ViewBag.companyList = companyService.GetCompanyList();
+            ViewBag.categoryList = categoryService.GetCategoryList();
             return View("Add");
         }
 

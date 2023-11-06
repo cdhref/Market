@@ -1,5 +1,4 @@
-﻿using Market.Util;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
 namespace Market.Models.Context
 {

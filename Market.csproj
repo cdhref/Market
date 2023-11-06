@@ -253,13 +253,15 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\LoggerConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\Constant\Message.cs" />
     <Compile Include="Common\Constant\ResponseCode.cs" />
     <Compile Include="Common\Constant\ViewPageTitle.cs" />
+    <Compile Include="Common\Filter\GlobalFilterAttribute.cs" />
+    <Compile Include="Common\Filter\RequestLog.cs" />
     <Compile Include="Common\Infra\MarketDBContext.cs" />
     <Compile Include="Common\Object\JsonResponseWrapper.cs" />
-    <Compile Include="Common\Util\Config.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -309,7 +311,6 @@
     <Content Include="Content\css\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Common\Config\settings.ini" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
