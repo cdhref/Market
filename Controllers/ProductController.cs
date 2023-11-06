@@ -139,6 +139,10 @@ namespace Market.Controllers
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.deleteSuccessMessage));
         }
 
+        /// <summary>
+        /// 月別商品登録件数閲覧画面
+        /// </summary>
+        /// <returns>月別商品登録件数閲覧ページ</returns>
         [HttpGet]
         public ActionResult ProductAddedCountPage()
         {
@@ -147,6 +151,11 @@ namespace Market.Controllers
             return View("ProductAddedCount");
         }
 
+        /// <summary>
+        /// 月別商品登録件数データ取得
+        /// </summary>
+        /// <param name="companyID">企業id</param>
+        /// <returns>月別商品登録件数データ</returns>
         [HttpPost]
         public ActionResult GetProductAddedCount(int companyID) {
             List<ProductAddedCount> countList = productService.GetProductAddedCount(companyID);
