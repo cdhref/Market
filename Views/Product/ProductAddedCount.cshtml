@@ -8,7 +8,7 @@
 
 <div class="form-group">
     <label for="name">企業名</label>
-    <select id="companyID" class="form-control" onchange="modifyProduct()">
+    <select id="companyID" class="form-control" onchange="viewAddedProductCount()">
         <option value="">==選択==</option>
         @foreach (Market.Models.CompanyModel company in ViewBag.companyList)
         {
@@ -26,7 +26,7 @@
 
 @section Scripts{
     <script type="text/javascript">
-        async function modifyProduct() {
+        async function viewAddedProductCount() {
             if (!isValidForm()) {
                 return
             }
@@ -44,6 +44,10 @@
             }
             
             var ctxB = document.getElementById("barChart").getContext('2d');
+            var existingChart = Chart.getChart(ctxB);
+            if (existingChart) {
+                existingChart.destroy();
+            }
             var myBarChart = new Chart(ctxB, {
                 type: 'bar',
                 data: {
@@ -70,15 +74,6 @@
                         borderWidth: 1
                     }]
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
             });
         }
 

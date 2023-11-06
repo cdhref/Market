@@ -18,5 +18,6 @@ namespace Market.Common.Constant
         // 商品
         public static readonly string productList = "商品データリスト";
         public static readonly string productAdd = "商品データ登録";
+        public static readonly string productAddCount = "月別商品登録件数";
     }
 }

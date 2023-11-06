@@ -142,6 +142,7 @@ namespace Market.Controllers
         [HttpGet]
         public ActionResult ProductAddedCountPage()
         {
+            ViewBag.Title = ViewPageTitle.productAddCount;
             ViewBag.companyList = companyService.GetCompanyList();
             return View("ProductAddedCount");
         }

@@ -258,8 +258,8 @@
     <Compile Include="Common\Constant\Message.cs" />
     <Compile Include="Common\Constant\ResponseCode.cs" />
     <Compile Include="Common\Constant\ViewPageTitle.cs" />
-    <Compile Include="Common\Filter\GlobalFilterAttribute.cs" />
-    <Compile Include="Common\Filter\RequestLog.cs" />
+    <Compile Include="Common\Infra\GlobalFilterAttribute.cs" />
+    <Compile Include="Common\Object\RequestLog.cs" />
     <Compile Include="Common\Infra\MarketDBContext.cs" />
     <Compile Include="Common\Object\JsonResponseWrapper.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
