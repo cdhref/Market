@@ -5,6 +5,8 @@ using Market.Common.Constant;
 using Market.Object.Constant;
 using Market.Models;
 using Market.Models.Common;
+using System.Web.Script.Serialization;
+using System.Collections.Generic;
 
 namespace Market.Controllers
 {
@@ -110,7 +112,7 @@ namespace Market.Controllers
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            ViewBag.Title = ViewPageTitle.categoryAdd;
+            ViewBag.Title = ViewPageTitle.productAdd;
             ViewBag.productData = productService.GetProduct(id);
             ViewBag.companyList = companyService.GetCompanyList();
             ViewBag.categoryList = categoryService.GetCategoryList();
@@ -135,6 +137,21 @@ namespace Market.Controllers
             }
 
             return Json(new JsonResponseWrapper(ErrorCode.OK, Message.deleteSuccessMessage));
+        }
+
+        [HttpGet]
+        public ActionResult ProductAddedCountPage()
+        {
+            ViewBag.companyList = companyService.GetCompanyList();
+            return View("ProductAddedCount");
+        }
+
+        [HttpPost]
+        public ActionResult GetProductAddedCount(int companyID) {
+            List<ProductAddedCount> countList = productService.GetProductAddedCount(companyID);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string jsonLog = serializer.Serialize(countList);
+            return Json(new JsonResponseWrapper(ErrorCode.OK, "", jsonLog));
         }
     }
 }

@@ -32,7 +32,6 @@ namespace Market.Service
         }
         public void ModifyCategory(CategoryModel param)
         {
-            param.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             var category = _context.Category.FirstOrDefault<CategoryModel>(c => c.ID == param.ID);
             category.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             category.Name = param.Name;

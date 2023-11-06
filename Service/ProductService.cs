@@ -2,6 +2,8 @@
 using Market.Models.Context;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Globalization;
 using System.Linq;
 
 namespace Market.Service
@@ -53,13 +55,18 @@ namespace Market.Service
 
         public void AddProduct(ProductModel product)
         {
-            //_context.Add<ProductModel>(product);
+            _context.Product.Add(product);
             _context.SaveChanges();
         }
-        public void ModifyProduct(ProductModel product)
+        public void ModifyProduct(ProductModel param)
         {
-            product.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            //_context.Update(product);
+            var company = _context.Product.FirstOrDefault<ProductModel>(c => c.ID == param.ID);
+            company.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            company.Name = param.Name;
+            company.Comment = param.Comment;
+            company.CompanyID = param.CompanyID;
+            company.CategoryID = param.CategoryID;
+            company.Price = param.Price;
             _context.SaveChanges();
         }
 
@@ -82,6 +89,46 @@ namespace Market.Service
             _context.Product.Attach(product);
             _context.Product.Remove(product);
             _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// 한 기업의 월별 등록 건수의 통계를 가져온다.
+        /// </summary>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        internal List<ProductAddedCount> GetProductAddedCount(int companyID)
+        {
+            DateTime oneYearAgo = DateTime.Now.AddYears(-1);
+
+            var allProducts = _context.Product.ToList(); // 데이터를 로컬로 가져옴
+
+            List<ProductAddedCount> monthlyRegistrations = allProducts
+                .Where(p => p.CompanyID == companyID && DateTime.ParseExact(p.CreateAt, "yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture) >= oneYearAgo)
+                .Select(p =>
+                {
+                    var createAt = DateTime.ParseExact(p.CreateAt, "yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                    return new
+                    {
+                        p.CompanyID,
+                        Year = createAt.Year,
+                        Month = createAt.Month
+                    };
+                })
+                .GroupBy(p => new
+                {
+                    p.CompanyID,
+                    p.Year,
+                    p.Month
+                })
+                .Select(g => new ProductAddedCount
+                {
+                    YYYYMM = string.Format("{0}/{1:D2}", g.Key.Year, g.Key.Month),
+                    Count = g.Count()
+                })
+                .OrderBy(g => g.YYYYMM)
+                .ToList();
+
+            return monthlyRegistrations;
         }
     }
 }

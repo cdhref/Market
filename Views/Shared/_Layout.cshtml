@@ -28,6 +28,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/Product/List"> 商品リスト</a></li>
                                 <li><a class="dropdown-item" href="/Category/List"> カテゴリリスト </a></li>
+                                <li><a class="dropdown-item" href="/Product/ProductAddedCountPage"> 月別商品登録件数 </a></li>
+
                             </ul>
                         </li>
                     </ul>
@@ -47,13 +49,10 @@
         <span id="txtError">message</span>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Market
-        </div>
-    </footer>
+    
     <script src="~/Content/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/Content/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/Content/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

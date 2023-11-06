@@ -6,7 +6,7 @@
 
     int id = 0;
     string name = "";
-    string price = "";
+    int price = 0;
     string comment = "";
     string createAt = "";
     string companyName = "";
@@ -16,7 +16,7 @@
     {
         id = ViewBag.productData.ID;
         name = ViewBag.productData.Name;
-        price = string.Format("{0:n0}", ViewBag.productData.Price);
+        price = ViewBag.productData.Price;
         comment = ViewBag.productData.Comment;
         createAt = ViewBag.productData.CreateAt;
         companyName = ViewBag.productData.Company.Name;

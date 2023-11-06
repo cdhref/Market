@@ -1,0 +1,94 @@
+﻿@*
+    商品データを登録する画面
+*@
+@{
+    @model Market.Models.ProductModel
+ 
+}
+
+<div class="form-group">
+    <label for="name">企業名</label>
+    <select id="companyID" class="form-control" onchange="modifyProduct()">
+        <option value="">==選択==</option>
+        @foreach (Market.Models.CompanyModel company in ViewBag.companyList)
+        {
+            if (ViewBag.productData != null && ViewBag.productData.Company.ID == company.ID)
+            {
+                <option value="@company.ID" selected>@company.Name</option>
+                continue;
+            }
+            <option value="@company.ID">@company.Name</option>
+        }
+    </select>
+</div>
+
+<canvas id="barChart"></canvas>
+
+@section Scripts{
+    <script type="text/javascript">
+        async function modifyProduct() {
+            if (!isValidForm()) {
+                return
+            }
+            data = {
+                companyID: document.querySelector("#companyID").value,
+            }
+            const strJson = await getResponse("/Product/GetProductAddedCount", "POST", data, "", 0)
+            const json = JSON.parse(strJson)
+            const labels = Array()
+            const datas = Array()
+            for (let i = 0; i < json.result.length; i++) {
+                labels.push(json.result[i].YYYYMM)
+                datas.push(json.result[i].Count)
+                
+            }
+            
+            var ctxB = document.getElementById("barChart").getContext('2d');
+            var myBarChart = new Chart(ctxB, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '件',
+                        data: datas,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function isValidForm() {
+            const companyID = document.querySelector("#companyID").value
+
+            if (companyID == "") {
+                return false
+            }
+            return true
+        }
+    </script>
+}

@@ -30,10 +30,13 @@ namespace Market.Service
             _context.Company.Add(company);
             _context.SaveChanges();
         }
-        public void ModifyCompany(CompanyModel company)
+        public void ModifyCompany(CompanyModel param)
         {
+            var company = _context.Company.FirstOrDefault<CompanyModel>(c => c.ID == param.ID);
             company.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            //_context.Update(company);
+            company.Name = param.Name;
+            company.Comment = param.Comment;
+            company.IncorporationAt = param.IncorporationAt;
             _context.SaveChanges();
         }
 
