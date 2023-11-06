@@ -27,13 +27,13 @@ namespace Market.Service
 
         public void AddCompany(CompanyModel company)
         {
-            _context.Add<CompanyModel>(company);
+            _context.Company.Add(company);
             _context.SaveChanges();
         }
         public void ModifyCompany(CompanyModel company)
         {
             company.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            _context.Update(company);
+            //_context.Update(company);
             _context.SaveChanges();
         }
 
@@ -44,7 +44,7 @@ namespace Market.Service
         /// <returns>企業情報</returns>
         public CompanyModel GetCompany(int id)
         {
-            return _context.Find<CompanyModel>(id);
+            return _context.Company.Find(id);
         }
 
         public void DeleteCompany(CompanyModel company)

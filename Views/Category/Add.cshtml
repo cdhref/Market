@@ -2,7 +2,7 @@
     カテゴリデータを登録する画面
 *@
 @{
-    @model CategoryModel
+    @model Market.Models.CategoryModel
 
     int id = 0;
     string name = "";
@@ -10,7 +10,7 @@
 
     if (ViewBag.categoryData != null)
     {
-        id = ViewBag.categoryData.Id;
+        id = ViewBag.categoryData.ID;
         name = ViewBag.categoryData.Name;
         createAt = ViewBag.categoryData.CreateAt;
     }

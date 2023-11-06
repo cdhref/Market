@@ -2,7 +2,7 @@
     起業リストを閲覧する画面
 *@
 @{
-    @model List<CompanyModel>
+    @model List<Market.Models.CompanyModel>
 }
 <table class="table">
     <thead>
@@ -28,7 +28,7 @@
             }
         }
 
-        @foreach (CompanyModel company in ViewBag.companyList)
+        @foreach (Market.Models.CompanyModel company in ViewBag.companyList)
         {
             <tr>
                 <th scope="row">@company.Name</th>
@@ -37,8 +37,8 @@
                 <td>@company.CreateAt</td>
                 <td>@company.UpdateAt</td>
                 <td>
-                    <button type="button" class="btn btn-primary" onclick="location.href = '/Company/Detail/@company.Id'">修正</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteCompany(@company.Id)">削除</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href = '/Company/Detail/@company.ID'">修正</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteCompany(@company.ID)">削除</button>
                 </td>
             </tr>
         }

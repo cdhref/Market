@@ -1,10 +1,10 @@
-﻿using Market.Common.Constant;
+﻿using Market.Service;
+using System.Web.Mvc;
+using System;
 using Market.Models;
 using Market.Models.Common;
 using Market.Object.Constant;
-using Market.Service;
-using Microsoft.AspNetCore.Mvc;
-using System;
+using Market.Common.Constant;
 
 namespace Market.Controllers
 {
@@ -25,12 +25,12 @@ namespace Market.Controllers
         /// </summary>
         /// <returns>企業情報閲覧ページ</returns>
         [HttpGet]
-        public IActionResult List()
+        public ActionResult List()
         {
             ViewBag.Title = ViewPageTitle.companyList;
             // sampleコードのためPaging処理は除外。今後入れたくなるかも知れないのでParameterはもらって置く。
             string key = Message.pageKey;
-            string strPage = Request.Query[Message.pageKey];
+            string strPage = Request.Form[Message.pageKey];
             ViewBag.companyList = companyService.GetCompanyList(strPage);
 
             return View();
@@ -41,7 +41,7 @@ namespace Market.Controllers
         /// </summary>
         /// <returns>企業情報入力ページ</returns>
         [HttpGet]
-        public IActionResult AddPage()
+        public ActionResult AddPage()
         {
             ViewBag.Title = ViewPageTitle.companyAdd;
             return View("Add");
@@ -53,7 +53,7 @@ namespace Market.Controllers
         /// <param name="company">Model</param>
         /// <returns>json reselt</returns>
         [HttpPost]
-        public IActionResult Add([FromBody] CompanyModel company)
+        public ActionResult Add(CompanyModel company)
         {
             if (!company.CheckNotNullDataAndSetDefault())
             {
@@ -64,8 +64,9 @@ namespace Market.Controllers
             {
                 companyService.AddCompany(company);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -78,7 +79,7 @@ namespace Market.Controllers
         /// <param name="company">Model</param>
         /// <returns>登録結果</returns>
         [HttpPost]
-        public IActionResult Modify([FromBody] CompanyModel company)
+        public ActionResult Modify(CompanyModel company)
         {
             if (!company.CheckNotNullDataAndSetDefault())
             {
@@ -102,7 +103,7 @@ namespace Market.Controllers
         /// <param name="id">db pk</param>
         /// <returns>企業の詳細情報閲覧ページ</returns>
         [HttpGet]
-        public IActionResult Detail(int id)
+        public ActionResult Detail(int id)
         {
             ViewBag.Title = ViewPageTitle.companyAdd;
             ViewBag.companyData = companyService.GetCompany(id);
@@ -115,7 +116,7 @@ namespace Market.Controllers
         /// <param name="company">企業情報</param>
         /// <returns>削除結果</returns>
         [HttpPost]
-        public IActionResult Delete([FromBody] CompanyModel company)
+        public ActionResult Delete(CompanyModel company)
         {
             try
             {

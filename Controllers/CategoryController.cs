@@ -1,10 +1,10 @@
-﻿using Market.Common.Constant;
+﻿using System.Web.Mvc;
+using Market.Service;
+using System;
+using Market.Common.Constant;
+using Market.Object.Constant;
 using Market.Models;
 using Market.Models.Common;
-using Market.Object.Constant;
-using Market.Service;
-using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Market.Controllers
 {
@@ -25,12 +25,12 @@ namespace Market.Controllers
         /// </summary>
         /// <returns>カテゴリ情報閲覧ページ</returns>
         [HttpGet]
-        public IActionResult List()
+        public ActionResult List()
         {
             ViewBag.Title = ViewPageTitle.categoryList;
             // sampleコードのためPaging処理は除外。今後入れたくなるかも知れないのでParameterはもらって置く。
             string key = Message.pageKey;
-            string strPage = Request.Query[Message.pageKey];
+            string strPage = Request.Form[Message.pageKey];
             ViewBag.categoryList = categoryService.GetCategoryList(strPage);
 
             return View();
@@ -41,7 +41,7 @@ namespace Market.Controllers
         /// </summary>
         /// <returns>カテゴリ情報入力ページ</returns>
         [HttpGet]
-        public IActionResult AddPage()
+        public ActionResult AddPage()
         {
             ViewBag.Title = ViewPageTitle.categoryAdd;
             return View("Add");
@@ -53,7 +53,7 @@ namespace Market.Controllers
         /// <param name="category">Model</param>
         /// <returns>json reselt</returns>
         [HttpPost]
-        public IActionResult Add([FromBody] CategoryModel category)
+        public ActionResult Add(CategoryModel category)
         {
             if (!category.CheckNotNullDataAndSetDefault())
             {
@@ -78,7 +78,7 @@ namespace Market.Controllers
         /// <param name="category">Model</param>
         /// <returns>登録結果</returns>
         [HttpPost]
-        public IActionResult Modify([FromBody] CategoryModel category)
+        public ActionResult Modify(CategoryModel category)
         {
             if (!category.CheckNotNullDataAndSetDefault())
             {
@@ -102,7 +102,7 @@ namespace Market.Controllers
         /// <param name="id">db pk</param>
         /// <returns>カテゴリの詳細情報閲覧ページ</returns>
         [HttpGet]
-        public IActionResult Detail(int id)
+        public ActionResult Detail(int id)
         {
             ViewBag.Title = ViewPageTitle.categoryAdd;
             ViewBag.categoryData = categoryService.GetCategory(id);
@@ -115,7 +115,7 @@ namespace Market.Controllers
         /// <param name="category">カテゴリ情報</param>
         /// <returns>削除結果</returns>
         [HttpPost]
-        public IActionResult Delete([FromBody] CategoryModel category)
+        public ActionResult Delete(CategoryModel category)
         {
             try
             {

@@ -27,13 +27,15 @@ namespace Market.Service
 
         public void AddCategory(CategoryModel category)
         {
-            _context.Add<CategoryModel>(category);
+            _context.Category.Add(category);
             _context.SaveChanges();
         }
-        public void ModifyCategory(CategoryModel category)
+        public void ModifyCategory(CategoryModel param)
         {
+            param.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var category = _context.Category.FirstOrDefault<CategoryModel>(c => c.ID == param.ID);
             category.UpdateAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            _context.Update(category);
+            category.Name = param.Name;
             _context.SaveChanges();
         }
 
@@ -44,7 +46,7 @@ namespace Market.Service
         /// <returns>企業情報</returns>
         public CategoryModel GetCategory(int id)
         {
-            return _context.Find<CategoryModel>(id);
+            return _context.Category.Find(id);
         }
 
         public void DeleteCategory(CategoryModel category)

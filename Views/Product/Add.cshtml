@@ -2,7 +2,7 @@
     商品データを登録する画面
 *@
 @{
-    @model ProductModel
+    @model Market.Models.ProductModel
 
     int id = 0;
     string name = "";
@@ -14,7 +14,7 @@
 
     if (ViewBag.productData != null)
     {
-        id = ViewBag.productData.Id;
+        id = ViewBag.productData.ID;
         name = ViewBag.productData.Name;
         price = string.Format("{0:n0}", ViewBag.productData.Price);
         comment = ViewBag.productData.Comment;
@@ -41,14 +41,14 @@
     <label for="name">企業名</label>
     <select id="companyID" class="form-control">
         <option value="">==選択==</option>
-        @foreach (CompanyModel company in ViewBag.companyList)
+        @foreach (Market.Models.CompanyModel company in ViewBag.companyList)
         {
-            if (ViewBag.productData != null && ViewBag.productData.Company.Id == company.Id)
+            if (ViewBag.productData != null && ViewBag.productData.Company.ID == company.ID)
             {
-                <option value="@company.Id" selected>@company.Name</option>
+                <option value="@company.ID" selected>@company.Name</option>
                 continue;
             }
-            <option value="@company.Id">@company.Name</option>
+            <option value="@company.ID">@company.Name</option>
         }
     </select>
 </div>
@@ -56,14 +56,14 @@
     <label for="comment">カテゴリ名</label>
     <select id="categoryID" class="form-control">
         <option value="">==選択==</option>
-        @foreach (CategoryModel category in ViewBag.categoryList)
+        @foreach (Market.Models.CategoryModel category in ViewBag.categoryList)
         {
-            if (ViewBag.productData != null && ViewBag.productData.Category.Id == category.Id)
+            if (ViewBag.productData != null && ViewBag.productData.Category.ID == category.ID)
             {
-                <option value="@category.Id" selected>@category.Name</option>
+                <option value="@category.ID" selected>@category.Name</option>
                 continue;
             }
-            <option value="@category.Id">@category.Name</option>
+            <option value="@category.ID">@category.Name</option>
         }
     </select>
 </div>

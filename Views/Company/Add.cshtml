@@ -2,7 +2,7 @@
     起業データを登録する画面
 *@
 @{
-    @model CompanyModel
+    @model Market.Models.CompanyModel
 
     int id = 0;
     string name = "";
@@ -12,7 +12,7 @@
 
     if (ViewBag.companyData != null)
     {
-        id = ViewBag.companyData.Id;
+        id = ViewBag.companyData.ID;
         name = ViewBag.companyData.Name;
         comment = ViewBag.companyData.Comment;
         incorporationAt = ViewBag.companyData.IncorporationAt;
