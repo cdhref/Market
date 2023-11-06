@@ -91,7 +91,7 @@ namespace Market.Service
         }
 
         /// <summary>
-        /// 한 기업의 월별 등록 건수의 통계를 가져온다.
+        /// 指定された企業の月別登録件数を取得する。
         /// </summary>
         /// <param name="companyID"></param>
         /// <returns></returns>
