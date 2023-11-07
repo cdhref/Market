@@ -5,6 +5,8 @@ using Market.Models;
 using Market.Models.Common;
 using Market.Object.Constant;
 using Market.Common.Constant;
+using System.Diagnostics;
+using Market.Common.Util;
 
 namespace Market.Controllers
 {
@@ -66,6 +68,7 @@ namespace Market.Controllers
             }
             catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -88,8 +91,9 @@ namespace Market.Controllers
             {
                 companyService.ModifyCompany(company);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -121,8 +125,9 @@ namespace Market.Controllers
             {
                 companyService.DeleteCompany(company);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 

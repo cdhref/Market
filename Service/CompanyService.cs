@@ -14,6 +14,12 @@ namespace Market.Service
         {
             _context = new MarketDBContext();
         }
+
+        /// <summary>
+        /// 企業 List取得
+        /// </summary>
+        /// <param name="strPage"></param>
+        /// <returns>企業 List</returns>
         public List<CompanyModel> GetCompanyList(string strPage = "")
         {
             int pageNo = 0;
@@ -25,11 +31,20 @@ namespace Market.Service
             return companyList;
         }
 
+        /// <summary>
+        /// 企業情報を1件追加
+        /// </summary>
+        /// <param name="company">追加対象のデータ</param>
         public void AddCompany(CompanyModel company)
         {
             _context.Company.Add(company);
             _context.SaveChanges();
         }
+
+        /// <summary>
+        /// 企業情報を1件修正
+        /// </summary>
+        /// <param name="param">修正対象のデータ</param>
         public void ModifyCompany(CompanyModel param)
         {
             var company = _context.Company.FirstOrDefault<CompanyModel>(c => c.ID == param.ID);
@@ -50,6 +65,10 @@ namespace Market.Service
             return _context.Company.Find(id);
         }
 
+        /// <summary>
+        /// 企業情報を1件削除
+        /// </summary>
+        /// <param name="company">削除対象のデータ</param>
         public void DeleteCompany(CompanyModel company)
         {
             _context.Company.Attach(company);

@@ -26,9 +26,13 @@
 
 @section Scripts{
     <script type="text/javascript">
+        let myBarChart
         async function viewAddedProductCount() {
             if (!isValidForm()) {
                 return
+            }
+            if (myBarChart) {
+                myBarChart.destroy()
             }
             data = {
                 companyID: document.querySelector("#companyID").value,
@@ -43,17 +47,13 @@
                 
             }
             
-            var ctxB = document.getElementById("barChart").getContext('2d');
-            var existingChart = Chart.getChart(ctxB);
-            if (existingChart) {
-                existingChart.destroy();
-            }
-            var myBarChart = new Chart(ctxB, {
+            var ctxB = document.getElementById("barChart").getContext('2d')
+            myBarChart = new Chart(ctxB, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '件',
+                        label: '商品登録件数',
                         data: datas,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -74,7 +74,7 @@
                         borderWidth: 1
                     }]
                 },
-            });
+            })
         }
 
         function isValidForm() {

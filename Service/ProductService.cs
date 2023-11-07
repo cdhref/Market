@@ -30,6 +30,11 @@ namespace Market.Service
             };
         }
 
+        /// <summary>
+        /// 商品 List取得
+        /// </summary>
+        /// <param name="strPage"></param>
+        /// <returns>商品 List</returns>
         public List<ProductModel> GetProductList(string strPage)
         {
             int pageNo = 0;
@@ -52,11 +57,20 @@ namespace Market.Service
             return productList;
         }
 
+        /// <summary>
+        /// 商品情報を1件追加
+        /// </summary>
+        /// <param name="product">追加対象の商品データ</param>
         public void AddProduct(ProductModel product)
         {
             _context.Product.Add(product);
             _context.SaveChanges();
         }
+
+        /// <summary>
+        /// 商品情報を1件修正
+        /// </summary>
+        /// <param name="param">修正対象の商品データ</param>
         public void ModifyProduct(ProductModel param)
         {
             var company = _context.Product.FirstOrDefault<ProductModel>(c => c.ID == param.ID);

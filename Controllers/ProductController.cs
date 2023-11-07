@@ -5,8 +5,9 @@ using Market.Common.Constant;
 using Market.Object.Constant;
 using Market.Models;
 using Market.Models.Common;
-using System.Web.Script.Serialization;
 using System.Collections.Generic;
+using Market.Common.Util;
+using System.Diagnostics;
 
 namespace Market.Controllers
 {
@@ -72,8 +73,9 @@ namespace Market.Controllers
             {
                 productService.AddProduct(product);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -96,8 +98,9 @@ namespace Market.Controllers
             {
                 productService.ModifyProduct(product);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -131,8 +134,9 @@ namespace Market.Controllers
             {
                 productService.DeleteProduct(product);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -159,8 +163,7 @@ namespace Market.Controllers
         [HttpPost]
         public ActionResult GetProductAddedCount(int companyID) {
             List<ProductAddedCount> countList = productService.GetProductAddedCount(companyID);
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string jsonLog = serializer.Serialize(countList);
+            string jsonLog = StringUtil.ObjectToJsonString(countList);
             return Json(new JsonResponseWrapper(ErrorCode.OK, "", jsonLog));
         }
     }

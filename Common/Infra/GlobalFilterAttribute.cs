@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Market.Common.Util;
+using System.Diagnostics;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace Market.Common.Filter
 {
@@ -13,8 +13,7 @@ namespace Market.Common.Filter
             string httpMethod = filterContext.HttpContext.Request.HttpMethod;
             
             RequestLog log = new RequestLog(requestURL, httpMethod);
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string jsonLog = serializer.Serialize(log);
+            string jsonLog = StringUtil.ObjectToJsonString(log);
 
             // JSON 문자열 출력
             Trace.WriteLine(jsonLog);

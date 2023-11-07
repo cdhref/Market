@@ -5,6 +5,8 @@ using Market.Common.Constant;
 using Market.Object.Constant;
 using Market.Models;
 using Market.Models.Common;
+using System.Diagnostics;
+using Market.Common.Util;
 
 namespace Market.Controllers
 {
@@ -64,8 +66,9 @@ namespace Market.Controllers
             {
                 categoryService.AddCategory(category);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -88,8 +91,9 @@ namespace Market.Controllers
             {
                 categoryService.ModifyCategory(category);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 
@@ -121,8 +125,9 @@ namespace Market.Controllers
             {
                 categoryService.DeleteCategory(category);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(ErrorMessageUtil.GetServerErrorMessage(e));
                 return Json(new JsonResponseWrapper(ErrorCode.BAD_REQUEST, Message.failedUpsert));
             }
 

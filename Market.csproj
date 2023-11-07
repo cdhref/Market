@@ -262,6 +262,8 @@
     <Compile Include="Common\Object\RequestLog.cs" />
     <Compile Include="Common\Infra\MarketDBContext.cs" />
     <Compile Include="Common\Object\JsonResponseWrapper.cs" />
+    <Compile Include="Common\Util\ErrorMessageUtil.cs" />
+    <Compile Include="Common\Util\StringUtil.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

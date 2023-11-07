@@ -11,5 +11,6 @@
         public static readonly string addSuccessMessage = "正常に登録出来ました。";
         public static readonly string modifySuccessMessage = "正常に修正されました。";
         public static readonly string deleteSuccessMessage = "正常に削除されました。";
+        public static readonly string serverErrorMessageFormat = "errorが発生しました。error: {0}";
     }
 }
